@@ -38,6 +38,26 @@ class AdminPtaController extends Controller
         ]);
     }
 
+    public function ordersIndex(): JsonResponse
+    {
+        return response()->json(
+            PtaOrder::with(['user:id,name,email', 'service:id,name,slug'])
+                ->latest()
+                ->paginate(20)
+        );
+    }
+
+    public function orderShow(PtaOrder $ptaOrder): JsonResponse
+    {
+        return response()->json(
+            $ptaOrder->load([
+                'user:id,name,email',
+                'service:id,name,slug',
+                'logs.user:id,name,email',
+            ])
+        );
+    }
+
     public function servicesIndex(): JsonResponse
     {
         return response()->json(PtaService::latest()->paginate(20));

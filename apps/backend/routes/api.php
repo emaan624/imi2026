@@ -69,6 +69,8 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     Route::get('pta/dashboard', [AdminPtaController::class, 'dashboard']);
     Route::get('pta/revenue-report', [AdminPtaController::class, 'revenueReport']);
+    Route::get('pta/orders', [AdminPtaController::class, 'ordersIndex']);
+    Route::get('pta/orders/{ptaOrder}', [AdminPtaController::class, 'orderShow']);
     Route::get('pta/services', [AdminPtaController::class, 'servicesIndex']);
     Route::post('pta/services', [AdminPtaController::class, 'servicesStore']);
     Route::put('pta/services/{ptaService}', [AdminPtaController::class, 'servicesUpdate']);
@@ -77,6 +79,8 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     Route::get('installments/dashboard', [AdminInstallmentController::class, 'dashboard']);
     Route::get('installments/analytics', [AdminInstallmentController::class, 'analytics']);
+    Route::get('installments/contracts', [AdminInstallmentController::class, 'contractsIndex']);
+    Route::get('installments/contracts/{installmentContract}', [AdminInstallmentController::class, 'contractShow']);
     Route::get('installments/plans', [AdminInstallmentController::class, 'plansIndex']);
     Route::post('installments/plans', [AdminInstallmentController::class, 'plansStore']);
     Route::put('installments/plans/{installmentPlan}', [AdminInstallmentController::class, 'plansUpdate']);

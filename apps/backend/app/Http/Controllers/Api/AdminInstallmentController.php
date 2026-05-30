@@ -32,6 +32,28 @@ class AdminInstallmentController extends Controller
         ]);
     }
 
+    public function contractsIndex(): JsonResponse
+    {
+        return response()->json(
+            InstallmentContract::with(['user:id,name,email', 'plan:id,name,slug'])
+                ->latest()
+                ->paginate(20)
+        );
+    }
+
+    public function contractShow(InstallmentContract $installmentContract): JsonResponse
+    {
+        return response()->json(
+            $installmentContract->load([
+                'user:id,name,email',
+                'plan:id,name,slug',
+                'payments',
+                'schedules',
+                'reminders',
+            ])
+        );
+    }
+
     public function plansIndex(): JsonResponse
     {
         return response()->json(InstallmentPlan::latest()->paginate(20));
