@@ -95,6 +95,36 @@ docker compose up --build
 
 ## Next Phases
 
-- **Phase 2:** IMEI orders, bulk imports, provider APIs, API logs/statistics, checkers, auto-sync
+- **Phase 2:** PTA approval and installment system (implemented in this update)
 - **Phase 3:** Crypto deposits and confirmation tracking
 - **Phase 4:** Payment gateways (Stripe, PayPal, Binance Pay, Coinbase Commerce, JazzCash, EasyPaisa, bank transfer)
+
+## Phase 2 Implemented (PTA + Installments)
+
+- PTA services catalog, tax calculator, IMEI validation, eligibility checks
+- PTA order placement, status tracking, history, invoice + receipt payload generation
+- Passport/CNIC/overseas registration endpoints and partial/full wallet payments for PTA tax
+- Installment plans, contract creation with down payment support, schedule generation (weekly/monthly/custom)
+- Installment payment APIs with wallet deduction, reminders, late-fee aware payment records, early settlement
+- Admin PTA pricing/services management, order status updates, PTA revenue reporting
+- Admin installment plan management, approval workflow, risk scoring, defaulter/recovery/manual adjustment flows, analytics
+- New database tables:
+  - `pta_services`
+  - `pta_orders`
+  - `pta_order_logs`
+  - `installment_plans`
+  - `installment_contracts`
+  - `installment_payments`
+  - `installment_schedules`
+  - `installment_reminders`
+- New frontend pages:
+  - PTA Calculator
+  - PTA Services
+  - PTA Order Form
+  - PTA Status Tracker
+  - Installment Plans
+  - My Installments
+  - Payment Schedule
+  - Installment Details
+  - Admin PTA Dashboard
+  - Admin Installment Dashboard

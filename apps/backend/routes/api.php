@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AdminInstallmentController;
+use App\Http\Controllers\Api\AdminPtaController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InstallmentController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\PtaController;
 use App\Http\Controllers\Api\SupportTicketController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\WalletController;
@@ -29,9 +33,57 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::post('notifications/{notification}/read', [NotificationController::class, 'markAsRead']);
 
     Route::apiResource('tickets', SupportTicketController::class);
+
+    Route::get('pta/services', [PtaController::class, 'services']);
+    Route::post('pta/calculate-tax', [PtaController::class, 'calculator']);
+    Route::get('pta/validate-imei', [PtaController::class, 'validateImei']);
+    Route::get('pta/check-eligibility', [PtaController::class, 'eligibility']);
+    Route::get('pta/orders', [PtaController::class, 'index']);
+    Route::post('pta/orders', [PtaController::class, 'placeOrder']);
+    Route::get('pta/orders/{ptaOrder}', [PtaController::class, 'show']);
+    Route::get('pta/orders/{ptaOrder}/status', [PtaController::class, 'status']);
+    Route::get('pta/orders/{ptaOrder}/history', [PtaController::class, 'history']);
+    Route::post('pta/orders/{ptaOrder}/pay', [PtaController::class, 'pay']);
+    Route::get('pta/orders/{ptaOrder}/invoice', [PtaController::class, 'invoice']);
+    Route::get('pta/orders/{ptaOrder}/receipt', [PtaController::class, 'receipt']);
+    Route::post('pta/orders/{ptaOrder}/register/passport', [PtaController::class, 'registerByPassport']);
+    Route::post('pta/orders/{ptaOrder}/register/cnic', [PtaController::class, 'registerByCnic']);
+    Route::post('pta/orders/{ptaOrder}/register/overseas', [PtaController::class, 'registerOverseas']);
+
+    Route::get('installments/plans', [InstallmentController::class, 'plans']);
+    Route::post('installments/plans/{installmentPlan}/contracts', [InstallmentController::class, 'createContract']);
+    Route::get('installments/contracts', [InstallmentController::class, 'contracts']);
+    Route::get('installments/contracts/{installmentContract}', [InstallmentController::class, 'show']);
+    Route::get('installments/contracts/{installmentContract}/schedule', [InstallmentController::class, 'schedule']);
+    Route::get('installments/contracts/{installmentContract}/history', [InstallmentController::class, 'history']);
+    Route::get('installments/contracts/{installmentContract}/remaining-balance', [InstallmentController::class, 'remainingBalance']);
+    Route::get('installments/contracts/{installmentContract}/statement', [InstallmentController::class, 'statement']);
+    Route::get('installments/contracts/{installmentContract}/agreement', [InstallmentController::class, 'agreement']);
+    Route::post('installments/contracts/{installmentContract}/pay', [InstallmentController::class, 'pay']);
+    Route::post('installments/contracts/{installmentContract}/settle-early', [InstallmentController::class, 'settleEarly']);
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function (): void {
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::apiResource('users', UserManagementController::class)->except(['create', 'edit']);
+
+    Route::get('pta/dashboard', [AdminPtaController::class, 'dashboard']);
+    Route::get('pta/revenue-report', [AdminPtaController::class, 'revenueReport']);
+    Route::get('pta/services', [AdminPtaController::class, 'servicesIndex']);
+    Route::post('pta/services', [AdminPtaController::class, 'servicesStore']);
+    Route::put('pta/services/{ptaService}', [AdminPtaController::class, 'servicesUpdate']);
+    Route::delete('pta/services/{ptaService}', [AdminPtaController::class, 'servicesDestroy']);
+    Route::post('pta/orders/{ptaOrder}/status', [AdminPtaController::class, 'updateOrderStatus']);
+
+    Route::get('installments/dashboard', [AdminInstallmentController::class, 'dashboard']);
+    Route::get('installments/analytics', [AdminInstallmentController::class, 'analytics']);
+    Route::get('installments/plans', [AdminInstallmentController::class, 'plansIndex']);
+    Route::post('installments/plans', [AdminInstallmentController::class, 'plansStore']);
+    Route::put('installments/plans/{installmentPlan}', [AdminInstallmentController::class, 'plansUpdate']);
+    Route::delete('installments/plans/{installmentPlan}', [AdminInstallmentController::class, 'plansDestroy']);
+    Route::post('installments/contracts/{installmentContract}/approve', [AdminInstallmentController::class, 'approve']);
+    Route::post('installments/contracts/{installmentContract}/mark-defaulter', [AdminInstallmentController::class, 'markDefaulter']);
+    Route::post('installments/contracts/{installmentContract}/recovery-note', [AdminInstallmentController::class, 'recoveryNote']);
+    Route::post('installments/contracts/{installmentContract}/adjustment', [AdminInstallmentController::class, 'adjust']);
+    Route::post('installments/contracts/{installmentContract}/reminder', [AdminInstallmentController::class, 'triggerReminder']);
 });

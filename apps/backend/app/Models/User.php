@@ -62,4 +62,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(SupportTicket::class);
     }
+
+    public function ptaOrders(): HasMany
+    {
+        return $this->hasMany(PtaOrder::class);
+    }
+
+    public function installmentContracts(): HasMany
+    {
+        return $this->hasMany(InstallmentContract::class);
+    }
 }
