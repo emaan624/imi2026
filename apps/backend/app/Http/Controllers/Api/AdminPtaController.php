@@ -87,6 +87,8 @@ class AdminPtaController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
+        $fromStatus = $ptaOrder->status;
+
         $ptaOrder->status = $validated['status'];
         $ptaOrder->approved_at = $validated['status'] === 'approved' ? now() : null;
         $ptaOrder->save();
@@ -94,7 +96,7 @@ class AdminPtaController extends Controller
         $ptaOrder->logs()->create([
             'user_id' => $request->user()->id,
             'action' => 'admin_status_update',
-            'from_status' => $ptaOrder->getOriginal('status'),
+            'from_status' => $fromStatus,
             'to_status' => $validated['status'],
             'notes' => $validated['notes'] ?? null,
         ]);
