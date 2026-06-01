@@ -1,0 +1,17 @@
+# Node
+**/node_modules/
+**/dist/
+
+# PHP
+**/vendor/
+
+# Laravel
+apps/backend/.env
+apps/backend/storage/*.key
+apps/backend/storage/logs/*.log
+apps/backend/bootstrap/cache/*.php
+
+# IDE/OS
+.DS_Store
+.idea/
+.vscode/
