@@ -72,4 +72,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(InstallmentContract::class);
     }
+
+    public function imeiOrders(): HasMany
+    {
+        return $this->hasMany(ImeiOrder::class);
+    }
+
+    public function imeiBulkOrders(): HasMany
+    {
+        return $this->hasMany(ImeiBulkOrder::class);
+    }
 }

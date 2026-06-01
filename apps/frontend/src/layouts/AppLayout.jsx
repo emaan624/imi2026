@@ -17,9 +17,16 @@ export default function AppLayout() {
             <Link to="/pta/status" className="hover:text-cyan-400">PTA Status</Link>
             <Link to="/installments/plans" className="hover:text-cyan-400">Plans</Link>
             <Link to="/installments" className="hover:text-cyan-400">My Installments</Link>
+            <Link to="/imei/services" className="hover:text-cyan-400">IMEI Services</Link>
+            <Link to="/imei/order" className="hover:text-cyan-400">IMEI Order</Link>
+            <Link to="/imei/bulk-upload" className="hover:text-cyan-400">Bulk Upload</Link>
+            <Link to="/imei/tracking" className="hover:text-cyan-400">IMEI Tracking</Link>
             {user?.role === 'admin' && <Link to="/admin" className="hover:text-cyan-400">Admin Dashboard</Link>}
             {user?.role === 'admin' && <Link to="/admin/pta" className="hover:text-cyan-400">Admin PTA</Link>}
             {user?.role === 'admin' && <Link to="/admin/installments" className="hover:text-cyan-400">Admin Installments</Link>}
+            {user?.role === 'admin' && <Link to="/admin/imei/providers" className="hover:text-cyan-400">IMEI Providers</Link>}
+            {user?.role === 'admin' && <Link to="/admin/imei/services" className="hover:text-cyan-400">IMEI Services Admin</Link>}
+            {user?.role === 'admin' && <Link to="/admin/imei/analytics" className="hover:text-cyan-400">IMEI Analytics</Link>}
             <button onClick={logout} className="rounded bg-slate-700 px-3 py-1 hover:bg-slate-600">Logout</button>
           </nav>
         </div>

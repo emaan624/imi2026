@@ -7,6 +7,9 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Models\Wallet;
+use App\Models\ImeiCategory;
+use App\Models\ImeiProvider;
+use App\Models\ImeiService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -61,5 +64,63 @@ class DatabaseSeeder extends Seeder
                 'priority' => 'medium',
             ]);
         }
+
+        $checkerCategory = ImeiCategory::updateOrCreate(
+            ['slug' => 'imei-checkers'],
+            [
+                'name' => 'IMEI Checkers',
+                'description' => 'IMEI diagnostic and verification services',
+                'is_active' => true,
+            ]
+        );
+
+        foreach ([
+            ['name' => 'FMI Checker', 'slug' => 'fmi-checker', 'checker_type' => 'fmi'],
+            ['name' => 'Carrier Checker', 'slug' => 'carrier-checker', 'checker_type' => 'carrier'],
+            ['name' => 'Blacklist Checker', 'slug' => 'blacklist-checker', 'checker_type' => 'blacklist'],
+            ['name' => 'Warranty Checker', 'slug' => 'warranty-checker', 'checker_type' => 'warranty'],
+            ['name' => 'Network Checker', 'slug' => 'network-checker', 'checker_type' => 'network'],
+            ['name' => 'Device Info Checker', 'slug' => 'device-info-checker', 'checker_type' => 'device_info'],
+        ] as $serviceSeed) {
+            ImeiService::updateOrCreate(
+                ['slug' => $serviceSeed['slug']],
+                [
+                    'imei_category_id' => $checkerCategory->id,
+                    'name' => $serviceSeed['name'],
+                    'checker_type' => $serviceSeed['checker_type'],
+                    'price' => 3.99,
+                    'estimated_time_minutes' => 5,
+                    'is_active' => true,
+                ]
+            );
+        }
+
+        ImeiProvider::updateOrCreate(
+            ['slug' => 'unlockbase-main'],
+            [
+                'name' => 'UnlockBase',
+                'type' => 'unlockbase',
+                'priority' => 1,
+                'api_url' => 'https://api.unlockbase.example',
+                'api_key' => 'demo-key',
+                'is_active' => true,
+                'supports_webhooks' => true,
+            ]
+        );
+
+        ImeiProvider::updateOrCreate(
+            ['slug' => 'dhru-fusion-main'],
+            [
+                'name' => 'Dhru Fusion',
+                'type' => 'dhru_fusion',
+                'priority' => 2,
+                'api_url' => 'https://api.dhrufusion.example',
+                'api_key' => 'demo-key',
+                'username' => 'demo',
+                'password' => 'demo',
+                'is_active' => true,
+                'supports_webhooks' => true,
+            ]
+        );
     }
 }

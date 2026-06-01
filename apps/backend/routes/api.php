@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AdminImeiController;
 use App\Http\Controllers\Api\AdminInstallmentController;
 use App\Http\Controllers\Api\AdminPtaController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImeiController;
+use App\Http\Controllers\Api\ImeiWebhookController;
 use App\Http\Controllers\Api\InstallmentController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PtaController;
@@ -61,6 +64,14 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('installments/contracts/{installmentContract}/agreement', [InstallmentController::class, 'agreement']);
     Route::post('installments/contracts/{installmentContract}/pay', [InstallmentController::class, 'pay']);
     Route::post('installments/contracts/{installmentContract}/settle-early', [InstallmentController::class, 'settleEarly']);
+
+    Route::get('imei/services', [ImeiController::class, 'services']);
+    Route::get('imei/orders', [ImeiController::class, 'orders']);
+    Route::get('imei/orders/{imeiOrder}', [ImeiController::class, 'show']);
+    Route::get('imei/orders/{imeiOrder}/history', [ImeiController::class, 'history']);
+    Route::post('imei/orders', [ImeiController::class, 'placeOrder']);
+    Route::get('imei/bulk-orders', [ImeiController::class, 'bulkOrders']);
+    Route::post('imei/bulk-orders', [ImeiController::class, 'bulkUpload']);
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function (): void {
@@ -90,4 +101,19 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::post('installments/contracts/{installmentContract}/recovery-note', [AdminInstallmentController::class, 'recoveryNote']);
     Route::post('installments/contracts/{installmentContract}/adjustment', [AdminInstallmentController::class, 'adjust']);
     Route::post('installments/contracts/{installmentContract}/reminder', [AdminInstallmentController::class, 'triggerReminder']);
+
+    Route::get('imei/analytics', [AdminImeiController::class, 'analytics']);
+    Route::get('imei/providers', [AdminImeiController::class, 'providersIndex']);
+    Route::post('imei/providers', [AdminImeiController::class, 'providersStore']);
+    Route::put('imei/providers/{imeiProvider}', [AdminImeiController::class, 'providersUpdate']);
+    Route::delete('imei/providers/{imeiProvider}', [AdminImeiController::class, 'providersDestroy']);
+    Route::get('imei/services', [AdminImeiController::class, 'servicesIndex']);
+    Route::post('imei/services', [AdminImeiController::class, 'servicesStore']);
+    Route::put('imei/services/{imeiService}', [AdminImeiController::class, 'servicesUpdate']);
+    Route::delete('imei/services/{imeiService}', [AdminImeiController::class, 'servicesDestroy']);
+    Route::get('imei/orders', [AdminImeiController::class, 'ordersIndex']);
+    Route::get('imei/orders/{imeiOrder}', [AdminImeiController::class, 'orderShow']);
+    Route::post('imei/orders/{imeiOrder}/refund', [AdminImeiController::class, 'markRefund']);
 });
+
+Route::post('imei/webhooks/{provider:slug}', [ImeiWebhookController::class, 'handle']);
