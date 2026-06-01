@@ -151,3 +151,52 @@ docker compose up --build
 - Frontend PTA lifecycle support: IMEI validation, eligibility checks, partial/full wallet payment, registration updates, history, invoice, and receipt visibility
 - Frontend installment lifecycle support: contract application from plans, manual payment amount entry, remaining-balance/statement/agreement visibility, and early settlement action
 - Frontend admin operational tooling for PTA services/orders and installment plan/contract actions
+
+## IMEI Phase 2 Implemented
+
+- New IMEI migrations:
+  - `imei_categories`
+  - `imei_services`
+  - `imei_providers`
+  - `imei_orders`
+  - `imei_bulk_orders`
+  - `imei_order_logs`
+  - `imei_provider_balances`
+- Provider clients:
+  - UnlockBase provider
+  - Dhru Fusion provider
+  - Generic REST provider
+  - Generic XML provider
+- Provider orchestration:
+  - Priority-based provider selection
+  - Automatic provider fallback on failures
+- Automation:
+  - Auto order submission jobs
+  - Auto status synchronization jobs
+  - Auto provider balance synchronization jobs
+  - Scheduler commands for all IMEI automation tasks
+  - Queue-compatible IMEI jobs
+- Webhooks:
+  - Provider webhook endpoint for IMEI order updates
+- Built-in checkers:
+  - FMI Checker
+  - Carrier Checker
+  - Blacklist Checker
+  - Warranty Checker
+  - Network Checker
+  - Device Info Checker
+- Frontend pages:
+  - IMEI Services Page
+  - Place Order Page
+  - Bulk CSV Upload Page
+  - Order Tracking Page
+  - Provider Management Page
+  - Service Management Page
+  - Analytics Dashboard
+- Admin analytics:
+  - Profit Analytics
+  - Revenue Analytics
+  - API Statistics
+  - Failed Order Management
+  - Refund Management
+  - Provider Balance Dashboard
